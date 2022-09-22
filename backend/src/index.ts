@@ -1,20 +1,13 @@
 import cors from "cors";
 import express from "express";
-import mysql from "mysql";
 import { v4 as uuidV4 } from "uuid";
+import db from "./database/config";
 
 const port = 8080;
 
 const app = express();
 app.use(express.json());
 app.use(cors());
-
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "test",
-});
 
 app.get("/", (request, response) => {
   response.json("hello, backend is running");
