@@ -1,7 +1,8 @@
-import { Box, Container, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, Button, Container, Flex, Heading, Text } from "@chakra-ui/react";
 import { BookCard } from "@components/bookCard";
 import { BookContext } from "@contexts/bookContext";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const BooksPage = () => {
   const { books, List } = BookContext();
@@ -11,8 +12,8 @@ const BooksPage = () => {
   }, []);
 
   return (
-    <Container maxW={1100} bg="gray.100" textAlign="center">
-      <Box py={5} mb={5}>
+    <Container maxW={1100} py={10} bg="gray.100" textAlign="center">
+      <Box py={5}>
         <Heading
           as="h1"
           fontSize="3xl"
@@ -24,6 +25,12 @@ const BooksPage = () => {
         </Heading>
 
         <Text as="strong">Application to test MySQL</Text>
+      </Box>
+
+      <Box mb={10}>
+        <Link to="/Add">
+          <Button colorScheme="purple">Create new book</Button>
+        </Link>
       </Box>
 
       <Flex
