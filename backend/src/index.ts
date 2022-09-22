@@ -22,17 +22,24 @@ app.get("/books", (request, response) => {
 });
 
 app.post("/books", (request, response) => {
-  const q =
-    "INSERT INTO books (`id`,`title`,`description`,`cover`, `price`) VALUES (?)";
-  const values = [
+  const { title, description, cover, price } = request.body;
+
+  const q = "INSERT INTO books (`??`,`??`,`??`,`??`, `??`) VALUES (?)";
+
+  const data = [
+    "id",
+    "title",
+    "description",
+    "cover",
+    "price",
     uuidV4(),
-    request.body.title,
-    request.body.description,
-    request.body.cover,
-    request.body.price,
+    title,
+    description,
+    cover,
+    price,
   ];
 
-  db.query(q, [values], (err, data) => {
+  db.query(q, data, (err, data) => {
     if (err) return response.json(err);
     return response.status(201).json(data);
   });
@@ -40,17 +47,24 @@ app.post("/books", (request, response) => {
 
 app.put("/books/:id", (request, response) => {
   const bookId = request.params.id;
-  const q =
-    "UPDATE books SET `title` = ?, `description` = ?, `price` = ?, `cover` = ? WHERE id = ?";
+  const { title, description, price, cover } = request.body;
 
-  const values = [
-    request.body.title,
-    request.body.description,
-    request.body.price,
-    request.body.cover,
+  const q = "UPDATE books SET ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE ?? = ?";
+
+  const data = [
+    "title",
+    title,
+    "description",
+    description,
+    "price",
+    price,
+    "cover",
+    cover,
+    "id",
+    bookId,
   ];
 
-  db.query(q, [...values, bookId], (err, data) => {
+  db.query(q, data, (err, data) => {
     if (err) return response.json(err);
     return response.json(data);
   });
@@ -58,9 +72,11 @@ app.put("/books/:id", (request, response) => {
 
 app.delete("/books/:id", (request, response) => {
   const bookId = request.params.id;
-  const q = "DELETE FROM books WHERE id = ?";
+  const q = "DELETE FROM books WHERE ?? = ?";
 
-  db.query(q, [bookId], (err, data) => {
+  const data = ["id", bookId];
+
+  db.query(q, data, (err, data) => {
     if (err) return response.json(err);
     return response.json("Book has been deleted successfully");
   });
